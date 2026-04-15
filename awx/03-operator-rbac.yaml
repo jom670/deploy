@@ -1,0 +1,39 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: awx-operator-manager-role
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps","endpoints","events","persistentvolumeclaims","pods","pods/attach","pods/exec","pods/log","secrets","serviceaccounts","services","services/finalizers"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments","statefulsets"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterroles","clusterrolebindings","roles","rolebindings"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: ["awx.ansible.com"]
+    resources: ["awxs","awxs/status","awxs/finalizers","awxbackups","awxbackups/status","awxbackups/finalizers","awxrestores","awxrestores/status","awxrestores/finalizers"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: ["route.openshift.io"]
+    resources: ["routes","routes/custom-host"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create","delete","get","list","patch","update","watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: awx-operator-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: awx-operator-manager-role
+subjects:
+  - kind: ServiceAccount
+    name: awx-operator-controller-manager
+    namespace: awx

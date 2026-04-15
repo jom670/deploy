@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: awx
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: ssh://git@ssh.github.com:443/jom670/deploy.git
+    targetRevision: main
+    path: awx
+    directory:
+      recurse: false
+      exclude: "06-argocd-application.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: awx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
