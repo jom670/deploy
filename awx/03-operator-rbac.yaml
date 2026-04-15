@@ -13,7 +13,7 @@ rules:
     resources: ["clusterroles","clusterrolebindings","roles","rolebindings"]
     verbs: ["create","delete","get","list","patch","update","watch"]
   - apiGroups: ["awx.ansible.com"]
-    resources: ["awxs","awxs/status","awxs/finalizers","awxbackups","awxbackups/status","awxbackups/finalizers","awxrestores","awxrestores/status","awxrestores/finalizers"]
+    resources: ["awxs","awxs/status","awxs/finalizers","awxbackups","awxbackups/status","awxbackups/finalizers","awxrestores","awxrestores/status","awxrestores/finalizers","awxmeshingresses","awxmeshingresses/status","awxmeshingresses/finalizers"]
     verbs: ["create","delete","get","list","patch","update","watch"]
   - apiGroups: ["networking.k8s.io"]
     resources: ["ingresses"]
