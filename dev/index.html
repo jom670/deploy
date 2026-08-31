@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manipal Hospitals Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,sans-serif;background:#f0f4f8;padding:20px;color:#333}
+    :root{--surface-1:#f0f4f8;--surface-2:#fff;--border:#e0e0e0;--text-primary:#212121;--text-secondary:#757575;--font-sans:system-ui,sans-serif}
+    .hdr{background:linear-gradient(135deg,#1a237e 0%,#0288d1 100%);color:#fff;padding:18px 24px;border-radius:16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+    .hdr-left{display:flex;align-items:center;gap:14px}
+    .logo{width:52px;height:52px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#1a237e}
+    .hdr-title{font-size:22px;font-weight:500;letter-spacing:.3px}
+    .hdr-sub{font-size:13px;opacity:.85;margin-top:2px}
+    .hdr-right{text-align:right}
+    .live-badge{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:4px 12px;font-size:12px;display:flex;align-items:center;gap:6px}
+    .dot{width:8px;height:8px;border-radius:50%;background:#4caf50;animation:pulse 1.5s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+    .stat-card{border-radius:14px;padding:16px;color:#fff;position:relative;overflow:hidden}
+    .stat-card::after{content:'';position:absolute;right:-10px;top:-10px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,0.12)}
+    .s1{background:linear-gradient(135deg,#e53935,#ef9a9a)}
+    .s2{background:linear-gradient(135deg,#00897b,#80cbc4)}
+    .s3{background:linear-gradient(135deg,#7b1fa2,#ce93d8)}
+    .s4{background:linear-gradient(135deg,#f57f17,#ffcc80)}
+    .stat-icon{font-size:22px;margin-bottom:8px;opacity:.9}
+    .stat-val{font-size:28px;font-weight:500}
+    .stat-lbl{font-size:12px;opacity:.85;margin-top:2px}
+    .stat-chg{font-size:11px;opacity:.8;margin-top:4px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+    .card{background:#fff;border:0.5px solid #e0e0e0;border-radius:14px;padding:16px}
+    .card-title{font-size:14px;font-weight:500;color:#212121;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .card-title i{font-size:18px}
+    .dept-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .dept-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .dept-name{font-size:13px;color:#212121;flex:1}
+    .dept-bar-wrap{flex:2;height:8px;background:#f0f4f8;border-radius:4px;overflow:hidden}
+    .dept-bar{height:100%;border-radius:4px}
+    .dept-num{font-size:12px;color:#757575;min-width:28px;text-align:right}
+    .doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .doc-card{background:#f0f4f8;border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px}
+    .doc-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#fff;flex-shrink:0}
+    .doc-name{font-size:13px;font-weight:500;color:#212121}
+    .doc-spec{font-size:11px;color:#757575;margin-top:1px}
+    .doc-status{font-size:10px;padding:2px 8px;border-radius:10px;margin-top:4px;display:inline-block}
+    .on{background:#e8f5e9;color:#2e7d32}
+    .off{background:#fff3e0;color:#e65100}
+    .appt-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid #e0e0e0}
+    .appt-row:last-child{border-bottom:none}
+    .appt-time{font-size:12px;color:#757575;min-width:52px}
+    .appt-name{font-size:13px;font-weight:500;color:#212121;flex:1}
+    .appt-type{font-size:11px;padding:2px 8px;border-radius:10px}
+    .t1{background:#e3f2fd;color:#1565c0}
+    .t2{background:#f3e5f5;color:#6a1b9a}
+    .t3{background:#e8f5e9;color:#2e7d32}
+    .t4{background:#fce4ec;color:#880e4f}
+    .bed-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .bed{border-radius:8px;padding:8px 6px;text-align:center;font-size:11px;font-weight:500}
+    .bed-occ{background:#ffcdd2;color:#c62828}
+    .bed-free{background:#c8e6c9;color:#2e7d32}
+    .bed-res{background:#fff9c4;color:#f57f17}
+    .legend{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+    .leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#757575}
+    .leg-dot{width:10px;height:10px;border-radius:3px}
+    .revenue-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .rev-lbl{font-size:12px;color:#757575;min-width:60px}
+    .rev-wrap{flex:1;height:10px;background:#f0f4f8;border-radius:5px;overflow:hidden}
+    .rev-bar{height:100%;border-radius:5px}
+    .rev-val{font-size:12px;color:#212121;min-width:50px;text-align:right}
+    .alert-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:8px}
+    .alert-row:last-child{margin-bottom:0}
+    .alert-icon{font-size:18px}
+    .alert-txt{font-size:13px;color:#212121}
+    .alert-sub{font-size:11px;color:#757575}
+    .a-red{background:#ffebee}
+    .a-amb{background:#fff8e1}
+    .a-grn{background:#e8f5e9}
+  </style>
+</head>
+<body>
+<h2 class="sr-only">Manipal Hospital dashboard showing patient stats, departments, doctors, appointments, and bed availability</h2>
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="logo">M</div>
+    <div>
+      <div class="hdr-title"><i class="ti ti-building-hospital"></i> Manipal Hospitals</div>
+      <div class="hdr-sub">Comprehensive Healthcare Dashboard — Bengaluru</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="live-badge"><span class="dot"></span> Live · Mon Aug 31, 2026</div>
+    <div style="font-size:12px;opacity:.8;margin-top:6px">Shift: Morning &nbsp;|&nbsp; 08:00 – 16:00</div>
+  </div>
+</div>
+<div class="stats">
+  <div class="stat-card s1"><div class="stat-icon"><i class="ti ti-users"></i></div><div class="stat-val">1,284</div><div class="stat-lbl">Total Patients Today</div><div class="stat-chg">↑ 8% vs yesterday</div></div>
+  <div class="stat-card s2"><div class="stat-icon"><i class="ti ti-bed"></i></div><div class="stat-val">847</div><div class="stat-lbl">Beds Occupied</div><div class="stat-chg">78% occupancy rate</div></div>
+  <div class="stat-card s3"><div class="stat-icon"><i class="ti ti-stethoscope"></i></div><div class="stat-val">312</div><div class="stat-lbl">Doctors on Duty</div><div class="stat-chg">↑ 12 more than last shift</div></div>
+  <div class="stat-card s4"><div class="stat-icon"><i class="ti ti-urgent"></i></div><div class="stat-val">43</div><div class="stat-lbl">Emergency Cases</div><div class="stat-chg">↓ 5 from last hour</div></div>
+</div>
+<div class="grid2">
+  <div class="card">
+    <div class="card-title" style="color:#1a237e"><i class="ti ti-chart-bar"></i> Department Load</div>
+    <div class="dept-row"><span class="dept-dot" style="background:#e53935"></span><span class="dept-name">Emergency</span><div class="dept-bar-wrap"><div class="dept-bar" style="width:92%;background:#e53935"></div></div><span class="dept-num">92%</span></div>
+    <div class="dept-row"><span class="dept-dot" style="background:#7b1fa2"></span><span class="dept-name">Cardiology</span><div class="dept-bar-wrap"><div class="dept-bar" style="width:85%;background:#7b1fa2"></div></div><span class="dept-num">85%</span></div>
+    <div class="dept-row"><span class="dept-dot" style="background:#0288d1"></span><span class="dept-name">Orthopaedics</span><div class="dept-bar-wrap"><div class="dept-bar" style="width:74%;background:#0288d1"></div></div><span class="dept-num">74%</span></div>
+    <div class="dept-row"><span class="dept-dot" style="background:#00897b"></span><span class="dept-name">Paediatrics</span><div class="dept-bar-wrap"><div class="dept-bar" style="width:68%;background:#00897b"></div></div><span class="dept-num">68%</span></div>
+    <div class="dept-row"><span class="dept-dot" style="background:#f57f17"></span><span class="dept-name">Neurology</span><div class="dept-bar-wrap"><div class="dept-bar" style="width:61%;background:#f57f17"></div></div><span class="dept-num">61%</span></div>
+    <div class="dept-row"><span class="dept-dot" style="background:#d81b60"></span><span class="dept-name">Oncology</span><div class="dept-bar-wrap"><div class="dept-bar" style="width:55%;background:#d81b60"></div></div><span class="dept-num">55%</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:#1a237e"><i class="ti ti-calendar-event"></i> Today's Appointments</div>
+    <div class="appt-row"><span class="appt-time">08:30</span><span class="appt-name">Ravi Shankar</span><span class="appt-type t1">Cardiology</span></div>
+    <div class="appt-row"><span class="appt-time">09:00</span><span class="appt-name">Priya Nair</span><span class="appt-type t2">Neurology</span></div>
+    <div class="appt-row"><span class="appt-time">09:45</span><span class="appt-name">Arun Kumar</span><span class="appt-type t3">Orthopaedics</span></div>
+    <div class="appt-row"><span class="appt-time">10:15</span><span class="appt-name">Meera Iyer</span><span class="appt-type t4">Oncology</span></div>
+    <div class="appt-row"><span class="appt-time">11:00</span><span class="appt-name">Suresh Babu</span><span class="appt-type t1">Cardiology</span></div>
+    <div class="appt-row"><span class="appt-time">11:30</span><span class="appt-name">Divya Reddy</span><span class="appt-type t2">Neurology</span></div>
+    <div class="appt-row"><span class="appt-time">13:00</span><span class="appt-name">Kiran Rao</span><span class="appt-type t3">Paediatrics</span></div>
+  </div>
+</div>
+<div class="card" style="margin-bottom:14px">
+  <div class="card-title" style="color:#1a237e"><i class="ti ti-user-md"></i> Doctors on Duty</div>
+  <div class="doc-grid">
+    <div class="doc-card"><div class="doc-avatar" style="background:#e53935">RK</div><div><div class="doc-name">Dr. Ramesh Kumar</div><div class="doc-spec">Cardiologist</div><span class="doc-status on">On Duty</span></div></div>
+    <div class="doc-card"><div class="doc-avatar" style="background:#7b1fa2">SP</div><div><div class="doc-name">Dr. Sunita Patel</div><div class="doc-spec">Neurologist</div><span class="doc-status on">On Duty</span></div></div>
+    <div class="doc-card"><div class="doc-avatar" style="background:#0288d1">AJ</div><div><div class="doc-name">Dr. Arjun Joshi</div><div class="doc-spec">Orthopaedics</div><span class="doc-status on">On Duty</span></div></div>
+    <div class="doc-card"><div class="doc-avatar" style="background:#00897b">LM</div><div><div class="doc-name">Dr. Latha Menon</div><div class="doc-spec">Paediatrician</div><span class="doc-status off">Break</span></div></div>
+    <div class="doc-card"><div class="doc-avatar" style="background:#f57f17">VN</div><div><div class="doc-name">Dr. Vikram Nair</div><div class="doc-spec">Oncologist</div><span class="doc-status on">On Duty</span></div></div>
+    <div class="doc-card"><div class="doc-avatar" style="background:#d81b60">DR</div><div><div class="doc-name">Dr. Deepa Rao</div><div class="doc-spec">Emergency</div><span class="doc-status on">On Duty</span></div></div>
+  </div>
+</div>
+<div class="grid3">
+  <div class="card">
+    <div class="card-title" style="color:#1a237e"><i class="ti ti-bed"></i> Bed Availability — ICU</div>
+    <div class="bed-grid">
+      <div class="bed bed-occ">101</div><div class="bed bed-occ">102</div><div class="bed bed-free">103</div><div class="bed bed-occ">104</div><div class="bed bed-res">105</div>
+      <div class="bed bed-free">106</div><div class="bed bed-occ">107</div><div class="bed bed-occ">108</div><div class="bed bed-free">109</div><div class="bed bed-occ">110</div>
+    </div>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-dot" style="background:#ffcdd2"></div>Occupied</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#c8e6c9"></div>Available</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#fff9c4"></div>Reserved</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:#1a237e"><i class="ti ti-coin"></i> Revenue Today</div>
+    <div class="revenue-bar"><span class="rev-lbl">OPD</span><div class="rev-wrap"><div class="rev-bar" style="width:80%;background:#0288d1"></div></div><span class="rev-val">₹8.2L</span></div>
+    <div class="revenue-bar"><span class="rev-lbl">Surgery</span><div class="rev-wrap"><div class="rev-bar" style="width:95%;background:#7b1fa2"></div></div><span class="rev-val">₹9.8L</span></div>
+    <div class="revenue-bar"><span class="rev-lbl">Pharmacy</span><div class="rev-wrap"><div class="rev-bar" style="width:60%;background:#00897b"></div></div><span class="rev-val">₹6.1L</span></div>
+    <div class="revenue-bar"><span class="rev-lbl">Lab</span><div class="rev-wrap"><div class="rev-bar" style="width:45%;background:#f57f17"></div></div><span class="rev-val">₹4.6L</span></div>
+    <div class="revenue-bar"><span class="rev-lbl">Radiology</span><div class="rev-wrap"><div class="rev-bar" style="width:38%;background:#e53935"></div></div><span class="rev-val">₹3.9L</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:#1a237e"><i class="ti ti-bell"></i> Alerts</div>
+    <div class="alert-row a-red"><span class="alert-icon"><i class="ti ti-urgent" style="color:#c62828"></i></span><div><div class="alert-txt">ICU Bed 104 — Critical</div><div class="alert-sub">Immediate attention needed</div></div></div>
+    <div class="alert-row a-amb"><span class="alert-icon"><i class="ti ti-clock" style="color:#e65100"></i></span><div><div class="alert-txt">OT 2 — Delayed by 20 min</div><div class="alert-sub">Surgery rescheduled</div></div></div>
+    <div class="alert-row a-amb"><span class="alert-icon"><i class="ti ti-pill" style="color:#e65100"></i></span><div><div class="alert-txt">Low stock — Insulin</div><div class="alert-sub">Pharmacy reorder required</div></div></div>
+    <div class="alert-row a-grn"><span class="alert-icon"><i class="ti ti-check" style="color:#2e7d32"></i></span><div><div class="alert-txt">Lab results ready × 18</div><div class="alert-sub">Awaiting doctor review</div></div></div>
+  </div>
+</div>
+</body>
+</html>
