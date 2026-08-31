@@ -1,84 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manipal Hospitals Dashboard</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:system-ui,sans-serif;background:#f0f4f8;padding:20px;color:#333}
-    :root{--surface-1:#f0f4f8;--surface-2:#fff;--border:#e0e0e0;--text-primary:#212121;--text-secondary:#757575;--font-sans:system-ui,sans-serif}
-    .hdr{background:linear-gradient(135deg,#1a237e 0%,#0288d1 100%);color:#fff;padding:18px 24px;border-radius:16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
-    .hdr-left{display:flex;align-items:center;gap:14px}
-    .logo{width:52px;height:52px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#1a237e}
-    .hdr-title{font-size:22px;font-weight:500;letter-spacing:.3px}
-    .hdr-sub{font-size:13px;opacity:.85;margin-top:2px}
-    .hdr-right{text-align:right}
-    .live-badge{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:4px 12px;font-size:12px;display:flex;align-items:center;gap:6px}
-    .dot{width:8px;height:8px;border-radius:50%;background:#4caf50;animation:pulse 1.5s infinite}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-    .stat-card{border-radius:14px;padding:16px;color:#fff;position:relative;overflow:hidden}
-    .stat-card::after{content:'';position:absolute;right:-10px;top:-10px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,0.12)}
-    .s1{background:linear-gradient(135deg,#e53935,#ef9a9a)}
-    .s2{background:linear-gradient(135deg,#00897b,#80cbc4)}
-    .s3{background:linear-gradient(135deg,#7b1fa2,#ce93d8)}
-    .s4{background:linear-gradient(135deg,#f57f17,#ffcc80)}
-    .stat-icon{font-size:22px;margin-bottom:8px;opacity:.9}
-    .stat-val{font-size:28px;font-weight:500}
-    .stat-lbl{font-size:12px;opacity:.85;margin-top:2px}
-    .stat-chg{font-size:11px;opacity:.8;margin-top:4px}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
-    .card{background:#fff;border:0.5px solid #e0e0e0;border-radius:14px;padding:16px}
-    .card-title{font-size:14px;font-weight:500;color:#212121;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-    .card-title i{font-size:18px}
-    .dept-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-    .dept-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-    .dept-name{font-size:13px;color:#212121;flex:1}
-    .dept-bar-wrap{flex:2;height:8px;background:#f0f4f8;border-radius:4px;overflow:hidden}
-    .dept-bar{height:100%;border-radius:4px}
-    .dept-num{font-size:12px;color:#757575;min-width:28px;text-align:right}
-    .doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .doc-card{background:#f0f4f8;border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px}
-    .doc-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#fff;flex-shrink:0}
-    .doc-name{font-size:13px;font-weight:500;color:#212121}
-    .doc-spec{font-size:11px;color:#757575;margin-top:1px}
-    .doc-status{font-size:10px;padding:2px 8px;border-radius:10px;margin-top:4px;display:inline-block}
-    .on{background:#e8f5e9;color:#2e7d32}
-    .off{background:#fff3e0;color:#e65100}
-    .appt-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid #e0e0e0}
-    .appt-row:last-child{border-bottom:none}
-    .appt-time{font-size:12px;color:#757575;min-width:52px}
-    .appt-name{font-size:13px;font-weight:500;color:#212121;flex:1}
-    .appt-type{font-size:11px;padding:2px 8px;border-radius:10px}
-    .t1{background:#e3f2fd;color:#1565c0}
-    .t2{background:#f3e5f5;color:#6a1b9a}
-    .t3{background:#e8f5e9;color:#2e7d32}
-    .t4{background:#fce4ec;color:#880e4f}
-    .bed-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-    .bed{border-radius:8px;padding:8px 6px;text-align:center;font-size:11px;font-weight:500}
-    .bed-occ{background:#ffcdd2;color:#c62828}
-    .bed-free{background:#c8e6c9;color:#2e7d32}
-    .bed-res{background:#fff9c4;color:#f57f17}
-    .legend{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
-    .leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#757575}
-    .leg-dot{width:10px;height:10px;border-radius:3px}
-    .revenue-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-    .rev-lbl{font-size:12px;color:#757575;min-width:60px}
-    .rev-wrap{flex:1;height:10px;background:#f0f4f8;border-radius:5px;overflow:hidden}
-    .rev-bar{height:100%;border-radius:5px}
-    .rev-val{font-size:12px;color:#212121;min-width:50px;text-align:right}
-    .alert-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:8px}
-    .alert-row:last-child{margin-bottom:0}
-    .alert-icon{font-size:18px}
-    .alert-txt{font-size:13px;color:#212121}
-    .alert-sub{font-size:11px;color:#757575}
-    .a-red{background:#ffebee}
-    .a-amb{background:#fff8e1}
-    .a-grn{background:#e8f5e9}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manipal Hospital Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/tabler-icons.min.css">
+<style>
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  --surface-1: #f0f2f5;
+  --surface-2: #ffffff;
+  --border: #e2e8f0;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--surface-1);padding:16px;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1a237e 0%,#0288d1 100%);color:#fff;padding:18px 24px;border-radius:16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.hdr-left{display:flex;align-items:center;gap:14px}
+.logo{width:52px;height:52px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#1a237e}
+.hdr-title{font-size:22px;font-weight:500;letter-spacing:.3px}
+.hdr-sub{font-size:13px;opacity:.85;margin-top:2px}
+.hdr-right{text-align:right}
+.live-badge{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);border-radius:20px;padding:4px 12px;font-size:12px;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:#4caf50;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.stat-card{border-radius:14px;padding:16px;color:#fff;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;right:-10px;top:-10px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,0.12)}
+.s1{background:linear-gradient(135deg,#e53935,#ef9a9a)}
+.s2{background:linear-gradient(135deg,#00897b,#80cbc4)}
+.s3{background:linear-gradient(135deg,#7b1fa2,#ce93d8)}
+.s4{background:linear-gradient(135deg,#f57f17,#ffcc80)}
+.stat-icon{font-size:22px;margin-bottom:8px;opacity:.9}
+.stat-val{font-size:28px;font-weight:500}
+.stat-lbl{font-size:12px;opacity:.85;margin-top:2px}
+.stat-chg{font-size:11px;opacity:.8;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.card{background:var(--surface-2);border:0.5px solid var(--border);border-radius:14px;padding:16px}
+.card-title{font-size:14px;font-weight:500;color:var(--text-primary);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title i{font-size:18px}
+.dept-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dept-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dept-name{font-size:13px;color:var(--text-primary);flex:1}
+.dept-bar-wrap{flex:2;height:8px;background:var(--surface-1);border-radius:4px;overflow:hidden}
+.dept-bar{height:100%;border-radius:4px}
+.dept-num{font-size:12px;color:var(--text-secondary);min-width:28px;text-align:right}
+.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.doc-card{background:var(--surface-1);border-radius:10px;padding:10px;display:flex;align-items:center;gap:10px}
+.doc-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#fff;flex-shrink:0}
+.doc-name{font-size:13px;font-weight:500;color:var(--text-primary)}
+.doc-spec{font-size:11px;color:var(--text-secondary);margin-top:1px}
+.doc-status{font-size:10px;padding:2px 8px;border-radius:10px;margin-top:4px;display:inline-block}
+.on{background:#e8f5e9;color:#2e7d32}
+.off{background:#fff3e0;color:#e65100}
+.appt-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.appt-row:last-child{border-bottom:none}
+.appt-time{font-size:12px;color:var(--text-secondary);min-width:52px}
+.appt-name{font-size:13px;font-weight:500;color:var(--text-primary);flex:1}
+.appt-type{font-size:11px;padding:2px 8px;border-radius:10px}
+.t1{background:#e3f2fd;color:#1565c0}
+.t2{background:#f3e5f5;color:#6a1b9a}
+.t3{background:#e8f5e9;color:#2e7d32}
+.t4{background:#fce4ec;color:#880e4f}
+.bed-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.bed{border-radius:8px;padding:8px 6px;text-align:center;font-size:11px;font-weight:500}
+.bed-occ{background:#ffcdd2;color:#c62828}
+.bed-free{background:#c8e6c9;color:#2e7d32}
+.bed-res{background:#fff9c4;color:#f57f17}
+.legend{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-secondary)}
+.leg-dot{width:10px;height:10px;border-radius:3px}
+.revenue-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.rev-lbl{font-size:12px;color:var(--text-secondary);min-width:60px}
+.rev-wrap{flex:1;height:10px;background:var(--surface-1);border-radius:5px;overflow:hidden}
+.rev-bar{height:100%;border-radius:5px}
+.rev-val{font-size:12px;color:var(--text-primary);min-width:50px;text-align:right}
+.alert-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:8px}
+.alert-row:last-child{margin-bottom:0}
+.alert-icon{font-size:18px}
+.alert-txt{font-size:13px;color:var(--text-primary)}
+.alert-sub{font-size:11px;color:var(--text-secondary)}
+.a-red{background:#ffebee}
+.a-amb{background:#fff8e1}
+.a-grn{background:#e8f5e9}
+</style>
 </head>
 <body>
 <h2 class="sr-only">Manipal Hospital dashboard showing patient stats, departments, doctors, appointments, and bed availability</h2>
@@ -86,7 +94,7 @@
   <div class="hdr-left">
     <div class="logo">M</div>
     <div>
-      <div class="hdr-title"><i class="ti ti-building-hospital"></i> Manipal Hospitals</div>
+      <div class="hdr-title"><i class="ti ti-building-hospital"></i>  Manipal Hospitals</div>
       <div class="hdr-sub">Comprehensive Healthcare Dashboard — Bengaluru</div>
     </div>
   </div>
@@ -99,7 +107,7 @@
   <div class="stat-card s1"><div class="stat-icon"><i class="ti ti-users"></i></div><div class="stat-val">1,284</div><div class="stat-lbl">Total Patients Today</div><div class="stat-chg">↑ 8% vs yesterday</div></div>
   <div class="stat-card s2"><div class="stat-icon"><i class="ti ti-bed"></i></div><div class="stat-val">847</div><div class="stat-lbl">Beds Occupied</div><div class="stat-chg">78% occupancy rate</div></div>
   <div class="stat-card s3"><div class="stat-icon"><i class="ti ti-stethoscope"></i></div><div class="stat-val">312</div><div class="stat-lbl">Doctors on Duty</div><div class="stat-chg">↑ 12 more than last shift</div></div>
-  <div class="stat-card s4"><div class="stat-icon"><i class="ti ti-urgent"></i></div><div class="stat-val">43</div><div class="stat-lbl">Emergency Cases</div><div class="stat-chg">↓ 5 from last hour</div></div>
+  <div class="stat-card s4"><div class="stat-icon"><i class="ti ti-alert-triangle"></i></div><div class="stat-val">43</div><div class="stat-lbl">Emergency Cases</div><div class="stat-chg">↓ 5 from last hour</div></div>
 </div>
 <div class="grid2">
   <div class="card">
@@ -123,7 +131,7 @@
   </div>
 </div>
 <div class="card" style="margin-bottom:14px">
-  <div class="card-title" style="color:#1a237e"><i class="ti ti-user-md"></i> Doctors on Duty</div>
+  <div class="card-title" style="color:#1a237e"><i class="ti ti-stethoscope"></i> Doctors on Duty</div>
   <div class="doc-grid">
     <div class="doc-card"><div class="doc-avatar" style="background:#e53935">RK</div><div><div class="doc-name">Dr. Ramesh Kumar</div><div class="doc-spec">Cardiologist</div><span class="doc-status on">On Duty</span></div></div>
     <div class="doc-card"><div class="doc-avatar" style="background:#7b1fa2">SP</div><div><div class="doc-name">Dr. Sunita Patel</div><div class="doc-spec">Neurologist</div><span class="doc-status on">On Duty</span></div></div>
@@ -156,10 +164,10 @@
   </div>
   <div class="card">
     <div class="card-title" style="color:#1a237e"><i class="ti ti-bell"></i> Alerts</div>
-    <div class="alert-row a-red"><span class="alert-icon"><i class="ti ti-urgent" style="color:#c62828"></i></span><div><div class="alert-txt">ICU Bed 104 — Critical</div><div class="alert-sub">Immediate attention needed</div></div></div>
+    <div class="alert-row a-red"><span class="alert-icon"><i class="ti ti-alert-circle" style="color:#c62828"></i></span><div><div class="alert-txt">ICU Bed 104 — Critical</div><div class="alert-sub">Immediate attention needed</div></div></div>
     <div class="alert-row a-amb"><span class="alert-icon"><i class="ti ti-clock" style="color:#e65100"></i></span><div><div class="alert-txt">OT 2 — Delayed by 20 min</div><div class="alert-sub">Surgery rescheduled</div></div></div>
     <div class="alert-row a-amb"><span class="alert-icon"><i class="ti ti-pill" style="color:#e65100"></i></span><div><div class="alert-txt">Low stock — Insulin</div><div class="alert-sub">Pharmacy reorder required</div></div></div>
-    <div class="alert-row a-grn"><span class="alert-icon"><i class="ti ti-check" style="color:#2e7d32"></i></span><div><div class="alert-txt">Lab results ready × 18</div><div class="alert-sub">Awaiting doctor review</div></div></div>
+    <div class="alert-row a-grn"><span class="alert-icon"><i class="ti ti-circle-check" style="color:#2e7d32"></i></span><div><div class="alert-txt">Lab results ready x18</div><div class="alert-sub">Awaiting doctor review</div></div></div>
   </div>
 </div>
 </body>
