@@ -14,13 +14,13 @@ spec:
         app: hospital-dashboard
     spec:
       containers:
-      - name: nginx
-        image: nginxinc/nginx-unprivileged:alpine
+      - name: httpd
+        image: registry.access.redhat.com/ubi9/httpd-24:latest
         ports:
         - containerPort: 8080
         volumeMounts:
         - name: html
-          mountPath: /usr/share/nginx/html
+          mountPath: /var/www/html
         resources:
           requests:
             memory: "64Mi"
