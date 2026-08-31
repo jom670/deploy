@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hospital-dashboard
+  namespace: hospital-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hospital-dashboard
+  template:
+    metadata:
+      labels:
+        app: hospital-dashboard
+    spec:
+      containers:
+      - name: dashboard
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html
+        configMap:
+          name: dashboard-html
